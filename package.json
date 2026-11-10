@@ -1,0 +1,12 @@
+{
+  "name": "chat-app",
+  "private": true,
+  "description": "Chat en tiempo real: frontend Next.js y backend NestJS",
+  "scripts": {
+    "setup": "npm --prefix backend ci && npm --prefix frontend ci",
+    "simulate": "npm --prefix backend run simulate --"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
