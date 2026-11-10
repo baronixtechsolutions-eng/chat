@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { act, fireEvent, render, screen } from "@testing-library/react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { MessageComposer } from "./message-composer";
 
@@ -21,10 +21,11 @@ describe("MessageComposer", () => {
     sendMessage.mockResolvedValue(null);
     render(<MessageComposer chatId="chat-1" />);
     type("  hola  ");
-    fireEvent.keyDown(input(), { key: "Enter" });
+    // The send resolves asynchronously; act waits for the resulting state updates
+    await act(async () => fireEvent.keyDown(input(), { key: "Enter" }));
 
     expect(sendMessage).toHaveBeenCalledWith("chat-1", "hola");
-    await vi.waitFor(() => expect(input().value).toBe(""));
+    expect(input().value).toBe("");
   });
 
   it("uses Shift+Enter for a new line instead of sending", () => {
