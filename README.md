@@ -25,7 +25,7 @@ Para detenerlo: `docker compose down` (añade `-v` si también quieres borrar lo
 
 ### Opción 2: en local
 
-Requisitos: Node.js 22 o superior y PostgreSQL 16 (sirve cualquier instalación local o un contenedor).
+Requisitos: Node.js 22.22 o superior (o la 24) y PostgreSQL 16 (sirve cualquier instalación local o un contenedor).
 
 **0. Dependencias.** Desde la raíz del proyecto, una sola vez después de clonarlo o descomprimirlo:
 
@@ -88,7 +88,7 @@ Abre http://localhost:3000.
 | Comando | Qué ejecuta | Requisitos |
 |---|---|---|
 | `npm run test:docker` | Backend y frontend dentro de contenedores | Docker. Sin npm: `docker compose run --rm backend-test` y `docker compose run --rm frontend-test` |
-| `npm test` | Backend y frontend en tu máquina | Node 22, `npm run setup` y PostgreSQL local |
+| `npm test` | Backend y frontend en tu máquina | Node 22.22+, `npm run setup` y PostgreSQL local |
 | `npm --prefix frontend test` | Solo el frontend | `npm run setup` |
 
 - **Backend (e2e):** levanta la aplicación completa contra una base de datos real y prueba el registro, el login, la protección de rutas y del socket, la creación de chats, el envío de mensajes, el historial y que un usuario no reciba mensajes de chats ajenos. Usa una base de datos aparte, `chat_test`, que se crea sola la primera vez. Se puede usar otra con `TEST_DATABASE_URL`.

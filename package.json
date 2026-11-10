@@ -9,6 +9,6 @@
     "test:docker": "docker compose run --rm backend-test && docker compose run --rm frontend-test"
   },
   "engines": {
-    "node": ">=22"
+    "node": ">=22.22"
   }
 }
