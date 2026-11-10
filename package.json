@@ -4,7 +4,9 @@
   "description": "Chat en tiempo real: frontend Next.js y backend NestJS",
   "scripts": {
     "setup": "npm --prefix backend ci && npm --prefix frontend ci",
-    "simulate": "npm --prefix backend run simulate --"
+    "simulate": "npm --prefix backend run simulate --",
+    "test": "npm --prefix backend test && npm --prefix frontend test",
+    "test:docker": "docker compose run --rm backend-test && docker compose run --rm frontend-test"
   },
   "engines": {
     "node": ">=22"
