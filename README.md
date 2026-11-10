@@ -38,7 +38,7 @@ Instala el backend y el frontend a partir de sus `package-lock.json`. Hazlo tamb
 **1. Base de datos**
 
 ```bash
-createuser -P chat        # contraseña: chat
+createuser -P --createdb chat   # contraseña: chat (CREATEDB permite crear la base de tests)
 createdb -O chat chat
 ```
 
@@ -85,15 +85,16 @@ Abre http://localhost:3000.
 
 ### Tests
 
-Los tests del backend levantan la aplicación completa contra una base de datos real (HTTP y sockets). Necesitan una base de datos vacía aparte:
+| Comando | Qué ejecuta | Requisitos |
+|---|---|---|
+| `npm run test:docker` | Backend y frontend dentro de contenedores | Docker. Sin npm: `docker compose run --rm backend-test` y `docker compose run --rm frontend-test` |
+| `npm test` | Backend y frontend en tu máquina | Node 22, `npm run setup` y PostgreSQL local |
+| `npm --prefix frontend test` | Solo el frontend | `npm run setup` |
 
-```bash
-createdb -O chat chat_test
-cd backend
-npm test
-```
+- **Backend (e2e):** levanta la aplicación completa contra una base de datos real y prueba el registro, el login, la protección de rutas y del socket, la creación de chats, el envío de mensajes, el historial y que un usuario no reciba mensajes de chats ajenos. Usa una base de datos aparte, `chat_test`, que se crea sola la primera vez. Se puede usar otra con `TEST_DATABASE_URL`.
+- **Frontend (unitarios y de componentes):** validación de formularios, formato de fechas, el estado de chats y mensajes (orden, duplicados y no leídos), las pantallas de login y registro, y el envío de mensajes (Enter, envíos duplicados, errores y desconexión).
 
-Se puede usar otra base con `TEST_DATABASE_URL`.
+Los servicios `backend-test` y `frontend-test` del `docker-compose.yml` solo se ejecutan cuando se llaman; `docker compose up` no los arranca. La primera ejecución tarda un poco más porque instala dependencias dentro del contenedor.
 
 ### Simulación de usuarios
 
