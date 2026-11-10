@@ -22,14 +22,14 @@ export interface Conversation {
   loadingOlder: boolean;
 }
 
-interface State {
+export interface State {
   chats: Chat[] | null;
   chatsError: string | null;
   conversations: Record<string, Conversation>;
   unread: Record<string, number>;
 }
 
-type Action =
+export type Action =
   | { type: "chats/loaded"; chats: Chat[] }
   | { type: "chats/failed"; error: string }
   | { type: "chat/upserted"; chat: Chat }
@@ -59,7 +59,7 @@ function mergeMessages(current: Message[], incoming: Message[]) {
 
 const byActivity = (a: Chat, b: Chat) => b.lastActivityAt.localeCompare(a.lastActivityAt);
 
-function reducer(state: State, action: Action): State {
+export function chatsReducer(state: State, action: Action): State {
   const updateConversation = (chatId: string, patch: Partial<Conversation>) => ({
     ...state,
     conversations: {
@@ -164,7 +164,7 @@ export function ChatsProvider({ activeChatId, children }: ProviderProps) {
   const { socket } = useSocket();
   const { user } = useAuth();
   const userId = user!.id;
-  const [state, dispatch] = useReducer(reducer, {
+  const [state, dispatch] = useReducer(chatsReducer, {
     chats: null,
     chatsError: null,
     conversations: {},
